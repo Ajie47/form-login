@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Login</title>
+    <style>
+        /* CSS tetap seperti sebelumnya */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1e88e5, #42a5f5);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #1e88e5;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: #1e88e5;
+            outline: none;
+            box-shadow: 0 0 5px rgba(30, 136, 229, 0.5);
+        }
+
+        .form-group .error {
+            color: red;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        .btn {
+            background: #1e88e5;
+            color: white;
+            padding: 0.7rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #1565c0;
+        }
+
+        .form-footer {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .form-footer a {
+            color: #1e88e5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="/login" method="POST">
+            <!-- Username -->
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Masukkan username" required>
+                <div class="error" id="username-error"></div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Masukkan email" required>
+                <div class="error" id="email-error"></div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                <div class="error" id="password-error"></div>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Ingat Saya</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Masuk</button>
+        </form>
+
+        <!-- Footer -->
+        <div class="form-footer">
+            <p>Belum punya akun? <a href="/register">Daftar</a></p>
+            <p><a href="/forgot-password">Lupa password?</a></p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        const form = document.querySelector('form');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        const usernameError = document.getElementById('username-error');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+
+        form.addEventListener('submit', (e) => {
+            let valid = true;
+
+            // Validasi Username
+            const usernameRegex = /^[a-zA-Z0-9_]+$/; // Username hanya boleh huruf, angka, dan underscore
+            if (usernameInput.value.trim().length < 3) {
+                usernameError.textContent = 'Username harus minimal 3 karakter.';
+                valid = false;
+            } else if (!usernameRegex.test(usernameInput.value)) {
+                usernameError.textContent = 'Username hanya boleh mengandung huruf, angka, dan underscore.';
+                valid = false;
+            } else {
+                usernameError.textContent = '';
+            }
+
+            // Validasi Email
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(emailInput.value)) {
+                emailError.textContent = 'Masukkan email yang valid.';
+                valid = false;
+            } else {
+                emailError.textContent = '';
+            }
+
+            // Validasi Password
+            if (passwordInput.value.length < 6) {
+                passwordError.textContent = 'Password harus memiliki minimal 6 karakter.';
+                valid = false;
+            } else {
+                passwordError.textContent = '';
+            }
+
+            // Jika validasi gagal, cegah pengiriman form
+            if (!valid) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
